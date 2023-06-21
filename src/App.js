@@ -8,6 +8,7 @@ import Home from './Home';
 
 function Cta1Page ({ data }) {
   
+  const finalCTALink = '';
   const renderCards = () => {
     const cardData = [
       { number: 1 },
@@ -16,18 +17,23 @@ function Cta1Page ({ data }) {
       { number: 4 },
     ];
 
+    const handleGoToApp = (cardNumber) => {
+      finalCTALink = data + '&deeplinkpath=cardNumber' + cardNumber;
+    };
+
     return cardData.map((card, index) => (
       <div key={index} className="card">
         <img src="https://via.placeholder.com/150" alt="Placeholder" />
         <h3>Card {card.number}</h3>
         <div className="cta-buttons">
           <button>CTA Button 1</button>
-          <button>Go to the App</button>
+          <button onClick={() => handleGoToApp(card.number)}>Go to the App</button>
         </div>
       </div>
     ));
   };
 
+ 
 
   return (
     <div className="CTA1Page">
@@ -37,7 +43,7 @@ function Cta1Page ({ data }) {
         {renderCards()}
       </div>
       <p>Current CTA Link: {data}</p>
-      <p>Final CTA Link: {data}</p>
+      <p>Final CTA Link: {finalCTALink}</p>
     </div>
   );
 };
