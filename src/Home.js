@@ -4,9 +4,8 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import './App.css';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import { Component } from 'react';
 
-const Home = () => {
+function Home ({setData}) {
     const [currentHref, setCurrentHref] = useState('');
 
     useEffect(() => {
@@ -14,21 +13,28 @@ const Home = () => {
       const gclidParam = urlParams.get('gclid');
       const gbraidParam = urlParams.get('gbraid');
       const param3p = urlParams.get('$3p');
+      const googleParams = "?%243p=a_google&"
+      const baseDomainLink = 'https://branch.devishetty.net/';
       const ctaButton = document.getElementById('cta-button');
-  
+
       if (gclidParam || gbraidParam) {
-        //ctaButton.href = 'dynamic link with gclid / gbraid';
-        setCurrentHref('referring link has GBRAID / GCLID ');
-      } else if (param3p == 'a_facebook') {
-        //ctaButton.href = 'dynamic link for fb';
-        setCurrentHref('referring link is 3p facebook link');
+        if(gclidParam){
+          googleParams += "gclid=" + gclidParam;
+        }
+        if (gbraidParam){
+          googleParams += "gbraid=" + gbraidParam;
+        } 
+        ctaButton.href = baseDomainLink + googleParams;
+        setCurrentHref('referring link has gbraid/gclid - ' + ctaButton.href);
       } else if (param3p && !(gclidParam || gbraidParam) ) {
-        //ctaButton.href = 'dynamic link with gclid / gbraid';
-        setCurrentHref('referring link is non SAN 3p branch link');
+        ctaButton.href = baseDomainLink + '?%243p=' + param3p;
+        setCurrentHref('referring link was non SAN link - ' + ctaButton.href);
       }  else {
-        ctaButton.href = 'https://anotherDomain.com';
-        setCurrentHref('default QL');
+        ctaButton.href = 'https://branch.devishetty.net/XJ5lkL27LAb';
+        setCurrentHref('default QL - ' + ctaButton.href);
       }
+      setData(ctaButton.href);
+
     }, []);
 
   return (

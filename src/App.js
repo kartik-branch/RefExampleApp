@@ -4,10 +4,9 @@ import { BrowserRouter as Router, Route, Routes, Link, useNavigate } from 'react
 import './App.css';
 import './Home.css';
 import Home from './Home';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
 
-const Cta1Page = () => {
+
+function Cta1Page ({ data }) {
   
   const renderCards = () => {
     const cardData = [
@@ -32,27 +31,28 @@ const Cta1Page = () => {
 
   return (
     <div className="CTA1Page">
-      <Link to="/RefExampleApp/">Home Page</Link>
+      <Link to="/">Home Page</Link>
       <h2>Select your credit cards</h2>        
       <div className="card-container">
         {renderCards()}
       </div>
+      <p>Current CTA Link: {data}</p>
+      <p>Final CTA Link: {data}</p>
     </div>
   );
 };
 
 
 function App(){
-
+  const [data, setData] = useState(null);
   return (
-    <Router>
+    <Router basename="/RefExampleApp">
     <div className="App">
       <h1>Branch Referrer Example App</h1>
-      <Link to="/RefExampleApp/cta1">Credit Page</Link>
-      
+      <Link to={`/cta1/`}>Credit Page</Link>
         <Routes>
-          <Route path="/RefExampleApp/" element={<Home />} />
-          <Route path="/RefExampleApp/cta1" element={<Cta1Page />} />
+          <Route path="/" element={<Home setData={setData}/>} />
+          <Route path="/cta1" element={<Cta1Page data={data}/>} />
         </Routes>
     </div></Router>
   );
